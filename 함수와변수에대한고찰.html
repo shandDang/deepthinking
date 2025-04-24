@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>fruits</title>
+  <style>
+    img{
+      width: 50px;
+      height: 50px;
+    }
+  </style>
+  <script>
+    //전역변수로 imag을 설정해서 imag이 항상 존재 할 수 있게 해줌
+    //결국 이게 imag을 선언해줘서 모든 코드에서 imag이라는 함수를 가져다 사용해서
+    //소멸되지 않고 append, remove등 모든 행동을 할 수 있게 만들어줌
+    let imag;
+    
+    //바로 무언가가 실행되지 않기 위한 장치(함수로 선언)
+    //호출 시 이 함수 내부의 것들이 실행
+
+    //그렇다면 아래 selection()이 종료 된 후에는 imag에 할당되어 있는
+    // 모든 값이 초기화되는가?
+    function imagtest(){
+      let y = 0;
+      //여기서 imag을 초기화 안해주면 imag이 조건문과 비교가 되지 않아서
+      //for문의 조건이 true가 되지 못해 아예 실행되지 않음
+      for(;imag<=5;){
+        console.log("AA");
+        imag++;
+        
+      }
+    }
+
+
+    function selection(){
+      let x = prompt("과일을 입력");
+      x = parseInt(x);
+      
+      //      이렇게 해버리면 imag이 이미 생성돼버려서 아래 imag != undefined가
+      //      true가 되어 removeChild가 실행됨
+      //      하지만 이 시점에서는 box에 child가 없기 때문에 removeChild가 실행되지 못해
+      //      오류가 나게 됩니다.
+      //      imag = document.createElement("img");
+      if(imag){
+        document.getElementById("box").removeChild(imag);
+      }
+      imag = document.createElement("img");
+      
+      if(x==1){
+        //imag은 되는데 
+        //항상 존재하는 imag에 src값을 붙여버림 그 imag을 가져다 쓰는겨
+        imag.src="../../../images/fruits/apple.png";
+        }else if(x==2){
+          //이건 왜 안됨?
+          //img를 생성했지만 if문이 끝나면서 수행된 내용이 사라짐
+          //이미지는 분명히 생성되어 돌아다니지만 걔를 불러올 수 있는 방법이 없는거네
+          document.createElement("img").src="../../../images/fruits/cherries.png";
+        }
+        else if(x==3){
+          imag.src="../../../images/fruits/grapes.png";
+        }
+        else if(x==4){
+          document.createElement("img").src="../../../images/fruits/pear.png";
+        }
+        else if(x==5){
+          document.createElement("img").src="../../../images/fruits/pineapple.png";
+        }else{
+          document.write("잘못된 값");
+        }
+        document.getElementById("box").appendChild(imag);
+      }
+      
+      //####################createElement는 그냥 만들어주는 것 뿐임
+      //존재하는지 어떻게 봄?
+      // 여기에 appendChild를 찍으면 함수내 선언된 변수인 imag이 소멸하여
+      //더이상 존재하지 않는 소스가 되므로 출력 불가함
+//      document.getElementById("box").appendChild(imag);
+  </script>
+</head>
+<body>
+  <button onclick="selection()">과일</button>
+  <button onclick="imagtest()">이미지테스트</button>
+  <div id="box"></div>
+  <!-- <img src="../../../images/fruits/apple.png" alt=""> -->
+</body>
+</html>
