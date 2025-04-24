@@ -16,13 +16,14 @@
     //소멸되지 않고 append, remove등 모든 행동을 할 수 있게 만들어줌
     let imag;
     
-    //바로 무언가가 실행되지 않기 위한 장치(함수로 선언)
-    //호출 시 이 함수 내부의 것들이 실행
-
+    
     //그렇다면 아래 selection()이 종료 된 후에는 imag에 할당되어 있는
     // 모든 값이 초기화되는가?
+    //그렇지 않더라 imag에는 이미 할당된 값이 항상 존재하고있음
+    //따라서 imag을 사용하고싶다면 다시 초기화 해 주는 과정이 필요함(함수 안에서)
     function imagtest(){
       let y = 0;
+      imag=1;
       //여기서 imag을 초기화 안해주면 imag이 조건문과 비교가 되지 않아서
       //for문의 조건이 true가 되지 못해 아예 실행되지 않음
       for(;imag<=5;){
@@ -31,20 +32,43 @@
         
       }
     }
-
-
+    
+    
+    //바로 무언가가 실행되지 않기 위한 장치(함수로 선언)
+    //호출 시 이 함수 내부의 것들이 실행
     function selection(){
+
       let x = prompt("과일을 입력");
       x = parseInt(x);
-      
+      //선언하면 숫자여도 다시 img로 변환하는 과정은 가능 하지만
+      //#box에 지정된 src 속성을 remove해주는 과정은 따로 생각을 해봐야 할 것 같다.
+            
       //      이렇게 해버리면 imag이 이미 생성돼버려서 아래 imag != undefined가
       //      true가 되어 removeChild가 실행됨
       //      하지만 이 시점에서는 box에 child가 없기 때문에 removeChild가 실행되지 못해
       //      오류가 나게 됩니다.
       //      imag = document.createElement("img");
-      if(imag){
-        document.getElementById("box").removeChild(imag);
-      }
+        // if(imag){
+        //   document.getElementById("box").removeChild(imag);
+        // }
+
+
+        // 이미지 삽입 전 항상 기존 이미지를 제거
+        //#################해결방법
+        // #box에 기존이미지가 존재 할 경우에만
+        //removeChild로 제거해주는 if함수 설정
+        //
+        //       // Node인지 확실히 확인 후 제거(instanceof Node)
+        // if (imag instanceof Node && document.getElementById("box").contains(imag)) {
+        //   document.getElementById("box").removeChild(imag);
+        // }
+        
+        // box 안에 있는 모든 이미지 제거
+        // 어떤 속성을 가지든 box안의 모든 자식을 제거해 줌
+        const box = document.getElementById("box");
+        box.querySelectorAll("img").forEach(img => box.removeChild(img));
+
+
       imag = document.createElement("img");
       
       if(x==1){
@@ -61,10 +85,10 @@
           imag.src="../../../images/fruits/grapes.png";
         }
         else if(x==4){
-          document.createElement("img").src="../../../images/fruits/pear.png";
+          imag.src="../../../images/fruits/pear.png";
         }
         else if(x==5){
-          document.createElement("img").src="../../../images/fruits/pineapple.png";
+          imag.src="../../../images/fruits/pineapple.png";
         }else{
           document.write("잘못된 값");
         }
@@ -72,7 +96,7 @@
       }
       
       //####################createElement는 그냥 만들어주는 것 뿐임
-      //존재하는지 어떻게 봄?
+      //존재하는지 어떻게 봄? - 볼 수 없지 존재하지만 어떻게 불러야 할 지 아예 모르는데 어떻게 불러냄
       // 여기에 appendChild를 찍으면 함수내 선언된 변수인 imag이 소멸하여
       //더이상 존재하지 않는 소스가 되므로 출력 불가함
 //      document.getElementById("box").appendChild(imag);
