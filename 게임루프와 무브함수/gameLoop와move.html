@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>우주를 날아다니는 벌레</title>
+    <style>
+        #wrapper{
+            height: 900px;
+            /*파일 경로가 잘못 됐었다...*/
+            background-image: url(../images/gallerxy/bg.png);
+            background-size:100% 100%;
+            position: relative;
+        }
+        img{
+            width: 30px;
+        }
+    </style>
+    <script src="../js_lib/common.js"></script>
+    <script>
+        //bug의 좌표값을 계속 이용하기 위해서 전역변수로 지정
+        let bug;
+        let bugX=0;
+        let bugY=0;
+
+
+        function bugAppear(){
+            //버그어피어 함수로 밧딧불이 이미지 생성
+            bug = document.createElement("img");
+            //bug.src 사용하면 img의 속성 자체를 바꿔주므로
+            //bug만 사용해도 src값이 유지된 형태로 존재한다고 볼 수 있다(?)
+
+            bug.src="../images/bandit/bug.png";
+            //#############GPT
+            // => 이제 bug는 <img src="../images/bandit/bug.png">가 된 것
+            
+            //버그어피어 함수로 wrapper 선택 후 bug.src를
+            let wrapper = document.getElementById("wrapper");
+            wrapper.appendChild(bug);
+        }
+
+        function move(){
+            bugX=getRandom(10)*100;
+            bugY=getRandom(11)*100;
+
+            bug.style.position="absolute";
+            bug.style.left=bugX+"px";
+            bug.style.top= bugY+"px";
+            //이것까지 실행시 아래가 된 것
+          //<img src="../images/bandit/bug.png" style="position: absolute; top: 100px; left: 100px;">  
+        };
+        function gameLoop(){
+            setInterval('move()',1000);
+        };
+
+        window.addEventListener("load",function(){
+            //로드이벤트 리스너에는 웬만하면 코드를 직접 작성하지 않도록 하자.
+            //유지보수, 함수의 실행 타이밍과 관련해서 이슈 발생 가능성이 높음
+            bugAppear();
+            gameLoop();
+        });
+    </script>
+</head>
+<body>
+    <button onclick="move()">벌레 움직임 실험용</button>
+    <!-- <img src="../images/bandit/bug.png" alt=""> -->
+    <div id="wrapper"></div>
+    <!-- <img src="../../html_workspace/images/gallerxy/bg.png" alt=""> -->
+
+</body>
+</html>
