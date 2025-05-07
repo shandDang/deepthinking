@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>이퀄라이저 만들기</title>
+    <style>
+    #wrapper{
+
+        background-color: yellowgreen;    
+    }
+    </style>
+    <script src="./Equal.js"></script>
+    <script src="./common.js"></script>
+    <script>
+        //아래의 전역변수들은 내가 설정할 수 있도록 그냥 선언 해 논것
+        //물론 연산이 가능하도록 숫자를 선언해 놓는 기능도 기본적으로 가지고 있다.
+        let width=10;//막대 하나당 너비
+        let height=500;//막대 하나당 높이
+        let count=10;//생성하고픈 막대 수
+        let eColor=["red","orange","yellow","green","blue","navy","purple"];
+
+        //함수 선언문에 의한 함수 정의
+        let test = () =>{
+            console.log("화살표함수 호출", this);
+            //********요 아래 말은 잘 못알아듣고 나중에 class를 배우면 하게될 수 있을것임
+            //화살표 함수내에서의 this는 상위 scope개체를 가리킴
+        }
+
+        //함수를 변수에 대입한 것(함수 표현식에 의한 함수 정의)
+        //Javascript언어는 함수를 일급시민(first-class citizen)취급
+        //컴퓨터공학에서 일급시민이란, 어떤 대상을 일반 데이터처럼 취급할 수 있는 상황을 말함.
+        //즉 자바스크립트는 함수를 변수에 담거나, 함수를 매개변수에 전달하거나, 리턴도 가능하다.
+        let init = function(){
+            //원하는 수 만큼의 막대를 만들어서 부모에 부착하되
+            //부모의 크기는 자식의 크기와 수에 비례하여 결정(동적으로 부여하자)
+            let wrapper = document.createElement("div");
+            wrapper.style.width = width*count + "px";
+            wrapper.style.height = height + "px";
+            wrapper.style.margin = "auto";
+            wrapper.style.backgroundColor = "lightgray";
+            wrapper.style.position = "relative";
+            // wrapper.style.transform="scaleX(-1)";
+            document.body.appendChild(wrapper);
+
+            for(let i = 0;i<count;i++){
+                //여기서도 이미 0으로 정해진 height값에 변화가 생기므로
+                //그냥 랜덤으로 배정된 숫자가(Math.random) height CSS에 들어갈 뿐이다.
+                //증례로 height 매개변수를 전혀 지정하지 않았는데도 height값이 요동치고 있음.
+                new Equal(wrapper,i*width, 0, width, eColor[getRandom(eColor.length-1)]);
+            }
+        }
+
+        addEventListener("load",function(){
+            init();
+        })
+    </script>
+</head>
+<body>
+
+</body>
+</html>
